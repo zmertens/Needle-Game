@@ -40,7 +40,7 @@ find_package(OpenGL REQUIRED)
 
 # Detect and add GLFW
 # find_package(glfw3 3.3 REQUIRED)
-set(GLFW_DIR ${LIB_DIR}/glfw-3.3.5)
+set(GLFW_DIR ${LIB_DIR}/glfw-3.3-stable)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL  "GLFW lib only")
 set(GLFW_INSTALL OFF CACHE BOOL  "GLFW lib only")
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -71,7 +71,7 @@ target_sources(dear_imgui PRIVATE ${DEAR_IMGUI_DIR}/backends/imgui_impl_glfw.cpp
 target_link_libraries(dear_imgui OpenGL::GL glfw ${GLFW_LIBRARIES})
 target_include_directories(dear_imgui PRIVATE ${GLFW_DIR}/include ${DEAR_IMGUI_DIR} ${DEAR_IMGUI_DIR}/backends)
 
-set(GLM_DIR ${LIB_DIR}/glm)
+set(GLM_DIR ${LIB_DIR}/glm-0.9.7)
 
 set(STB_IMAGE ${LIB_DIR}/stb)
 

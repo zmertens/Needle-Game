@@ -21,4 +21,11 @@ Clone repo using `git clone https://github.com/zmertens/Needle --recurse-submodu
   - Copy glfw DLL file and assets/ folder to the build/
     - Run `Needle.exe` to play!
 
-Update submodules using `git submodule init` or `git submodule update`
+Update submodules using `git submodule init` or `git submodule update --init`
+Add submodules:
+```bash
+git submodule add -f -b master https://github.com/ocornut/imgui.git dear_imgui
+git submodule add -f -b 3.3-stable https://github.com/glfw/glfw.git glfw-3.3-stable
+git submodule add -f -b 0.9.7 https://github.com/g-truc/glm.git glm-0.9.7
+```
+

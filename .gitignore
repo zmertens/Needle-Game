@@ -47,7 +47,7 @@ install_manifest.txt
 build/
 libs/dear_imgui
 !libs/glad
-libs/glfw-3.3.5
-libs/glm
+libs/glfw-3.3-stable
+libs/glm-0.9.7
 !libs/stb
 !libs/.gitkeep
