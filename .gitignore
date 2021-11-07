@@ -46,8 +46,8 @@ install_manifest.txt
 # Ignore directories
 build/
 libs/dear_imgui
-libs/glad
+!libs/glad
 libs/glfw-3.3.5
 libs/glm
-libs/stb
+!libs/stb
 !libs/.gitkeep
