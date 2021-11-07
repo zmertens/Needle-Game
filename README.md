@@ -22,10 +22,11 @@ Clone repo using `git clone https://github.com/zmertens/Needle --recurse-submodu
     - Run `Needle.exe` to play!
 
 Update submodules using `git submodule init` or `git submodule update --init`
-Add submodules:
+List of Git submodules:
 ```bash
-git submodule add -f -b master https://github.com/ocornut/imgui.git dear_imgui
-git submodule add -f -b 3.3-stable https://github.com/glfw/glfw.git glfw-3.3-stable
-git submodule add -f -b 0.9.7 https://github.com/g-truc/glm.git glm-0.9.7
+git submodule add -b master https://github.com/ocornut/imgui.git dear_imgui
+git submodule add -b 3.3-stable https://github.com/glfw/glfw.git glfw-3.3-stable
+git submodule add -b 0.9.7 https://github.com/g-truc/glm.git glm-0.9.7
+git submodule add https://github.com/erincatto/box2d.git
 ```
 
