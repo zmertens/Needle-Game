@@ -34,7 +34,7 @@ private:
 
 
     GLFWwindow* mGlfwWindow;
-
+    GLFWimage* mGlfwIcon;
     std::string mGlslVersion;
 
     const std::string mWindowIconPath;
@@ -44,7 +44,7 @@ private:
     static void setErrorCallback(int error, const char* description);
     static void setKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-    GLFWimage* loadImages(std::string filepath);
+    bool loadImages(std::string filepath);
 };
 
 #endif // GLFW_HANDLER

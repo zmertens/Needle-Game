@@ -53,8 +53,8 @@ bool GlfwHandler::init()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif // __APPLE__
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
     mGlfwWindow = glfwCreateWindow(GLFW_WINDOW_X, GLFW_WINDOW_Y, GLFW_WINDOW_TITLE, nullptr, nullptr);
     if (!mGlfwWindow)
@@ -65,8 +65,8 @@ bool GlfwHandler::init()
 
     if (mWindowIconPath.compare("") != 0)
     {
-        GLFWimage* icon = this->loadImages(mWindowIconPath);
-        glfwSetWindowIcon(mGlfwWindow, 1, icon);
+        this->loadImages(mWindowIconPath);
+        glfwSetWindowIcon(mGlfwWindow, 1, mGlfwIcon);
     }
 
     glfwMakeContextCurrent(mGlfwWindow);
@@ -92,15 +92,14 @@ void GlfwHandler::cleanUp()
     glfwTerminate();
 }
 
-GLFWimage* GlfwHandler::loadImages(std::string filepath)
+bool GlfwHandler::loadImages(std::string filepath)
 {
     int x, y, comps;
     unsigned char* imageData = stbi_load(filepath.c_str(), &x, &y, &comps, 1);
 
-    GLFWimage glfwImage[1];
-    glfwImage->pixels = imageData;
+    mGlfwIcon->pixels = imageData;
 
-    return glfwImage;
+    return true;
 }
 
 void GlfwHandler::swapBuffers() const
