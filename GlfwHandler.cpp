@@ -106,7 +106,8 @@ bool GlfwHandler::init()
     image.height = 32;
     image.pixels = pixels;
     
-    mGlfwCursor = glfwCreateCursor(&image, 0, 0);
+    // mGlfwCursor = glfwCreateCursor(&image, 0, 0);
+    mGlfwCursor = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
     if (mGlfwCursor == nullptr)
     {
         fprintf(stderr, "Cursor creation failed");
