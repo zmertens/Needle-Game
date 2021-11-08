@@ -28,7 +28,7 @@ int Needle::doStuff()
 
     ImVec4 clearColor = ImVec4(0.35f, 0.55f, 0.71f, 1.0f);
 #if defined(NEEDLE_DEBUG)
-    cout << "CHECKING BEFORE GAME LOOP" << endl;
+    cout << "Starting game loop" << endl;
 #endif // NEEDLE_DEBUG
     while (!glfwWindowShouldClose(mGlfwHandler.getGlfwWindow()))
     {
@@ -38,7 +38,7 @@ int Needle::doStuff()
         if (keys[GLFW_KEY_DELETE])
         {
 #if defined(NEEDLE_DEBUG)
-            cout << "VALIDATING GAME STATE" << endl;
+            cout << "DELETING A BUG" << endl;
 #endif // NEEDLE_DEBUG
         }
         else if (keys[GLFW_KEY_ESCAPE])
@@ -73,14 +73,13 @@ int Needle::doStuff()
         
         ImGui::End();
 
-        ImGui::Render();
-
         int displayWidth, displayHeight;
         glfwGetFramebufferSize(mGlfwHandler.getGlfwWindow(), &displayWidth, &displayHeight);
         glViewport(0, 0, displayWidth, displayHeight);
         glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         // Double-Buffered, swap buffers
