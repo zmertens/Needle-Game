@@ -32,6 +32,7 @@ private:
     static constexpr unsigned int GLFW_WINDOW_Y = 480;
 
     GLFWwindow* mGlfwWindow;
+    GLFWcursor* mGlfwCursor;
     std::string mGlslVersion;
 
     const std::string mTitle;
@@ -42,7 +43,7 @@ private:
     static void setErrorCallback(int error, const char* description);
     static void setKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-    unsigned char* loadImages(std::string filepath);
+    unsigned char* loadImages(std::string filepath, int& x, int& y);
 };
 
 #endif // GLFW_HANDLER

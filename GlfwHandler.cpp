@@ -3,6 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#include <cstdlib>
 #include <cstdio>
 
 #if defined(NEEDLE_DEBUG)
@@ -77,9 +78,13 @@ bool GlfwHandler::init()
 
     if (mWindowIconPath.compare("") != 0)
     {
+        int x, y;
         GLFWimage glfwIcon[1];
-        glfwIcon->pixels = this->loadImages(mWindowIconPath);
+        glfwIcon[0].pixels = this->loadImages(mWindowIconPath, x, y);
+        glfwIcon->width = x;
+        glfwIcon->height = y;
         glfwSetWindowIcon(mGlfwWindow, 1, glfwIcon);
+        stbi_image_free(glfwIcon[0].pixels);
     }
 
 #if defined(NEEDLE_DEBUG)
@@ -93,6 +98,22 @@ bool GlfwHandler::init()
     glfwSetErrorCallback(setErrorCallback);
     glfwSetKeyCallback(mGlfwWindow, setKeyCallback);
 
+    unsigned char pixels[32 * 32 * 4];
+    memset(pixels, 0xff, sizeof(pixels));
+    
+    GLFWimage image;
+    image.width = 32;
+    image.height = 32;
+    image.pixels = pixels;
+    
+    mGlfwCursor = glfwCreateCursor(&image, 0, 0);
+    if (mGlfwCursor == nullptr)
+    {
+        fprintf(stderr, "Cursor creation failed");
+    }
+    glfwSetInputMode(mGlfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetCursor(mGlfwWindow, mGlfwCursor);
+
     // Initialize Glad to use OpenGL after GLFW context creation
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
     {
@@ -105,14 +126,15 @@ bool GlfwHandler::init()
 
 void GlfwHandler::cleanUp()
 {
+    glfwDestroyCursor(mGlfwCursor);
     glfwDestroyWindow(mGlfwWindow);
     glfwTerminate();
 }
 
-unsigned char* GlfwHandler::loadImages(std::string filepath)
+unsigned char* GlfwHandler::loadImages(std::string filepath, int& x, int& y)
 {
-    int x, y, comps;
-    unsigned char* imageData = stbi_load(filepath.c_str(), &x, &y, &comps, 1);
+    int comps;
+    unsigned char* imageData = stbi_load(filepath.c_str(), &x, &y, &comps, 4);
 
     return imageData;
 }
