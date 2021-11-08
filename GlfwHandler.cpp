@@ -5,6 +5,10 @@
 
 #include <cstdio>
 
+#if defined(NEEDLE_DEBUG)
+#include <iostream>
+#endif // NEEDLE_DEBUG
+
 /**
  * Static
  */
@@ -29,7 +33,15 @@ void GlfwHandler::setKeyCallback(GLFWwindow* window, int key, int scancode, int 
 }
 
 GlfwHandler::GlfwHandler()
-: mWindowIconPath(GLFW_ICON_FILEPATH)
+: mTitle("GLFW Application")
+, mWindowIconPath("")
+{
+
+}
+
+GlfwHandler::GlfwHandler(const std::string& title, const std::string& iconpath)
+: mTitle(title)
+, mWindowIconPath(iconpath)
 {
 
 }
@@ -56,7 +68,7 @@ bool GlfwHandler::init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
-    mGlfwWindow = glfwCreateWindow(GLFW_WINDOW_X, GLFW_WINDOW_Y, GLFW_WINDOW_TITLE, nullptr, nullptr);
+    mGlfwWindow = glfwCreateWindow(GLFW_WINDOW_X, GLFW_WINDOW_Y, mTitle.c_str(), nullptr, nullptr);
     if (!mGlfwWindow)
     {
         glfwTerminate();
@@ -65,9 +77,16 @@ bool GlfwHandler::init()
 
     if (mWindowIconPath.compare("") != 0)
     {
-        this->loadImages(mWindowIconPath);
-        glfwSetWindowIcon(mGlfwWindow, 1, mGlfwIcon);
+        int x, y, comps;
+        unsigned char* imageData = stbi_load(mWindowIconPath.c_str(), &x, &y, &comps, 1);
+        GLFWimage glfwIcon[1];
+        glfwIcon->pixels = imageData;
+        glfwSetWindowIcon(mGlfwWindow, 1, glfwIcon);
     }
+
+#if defined(NEEDLE_DEBUG)
+    cout << "Making Glfw current context" << endl;
+#endif // NEEDLE_DEBUG
 
     glfwMakeContextCurrent(mGlfwWindow);
     // Enable Vsync
@@ -92,12 +111,13 @@ void GlfwHandler::cleanUp()
     glfwTerminate();
 }
 
+/**
+ * @TODO -- Plan is to utilize this and properly accept GFLWimage*
+ */
 bool GlfwHandler::loadImages(std::string filepath)
 {
     int x, y, comps;
     unsigned char* imageData = stbi_load(filepath.c_str(), &x, &y, &comps, 1);
-
-    mGlfwIcon->pixels = imageData;
 
     return true;
 }

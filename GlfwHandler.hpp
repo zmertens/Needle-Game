@@ -13,6 +13,7 @@ class GlfwHandler : public IHandler
 {
 public:
     GlfwHandler();
+    GlfwHandler(const std::string& title, const std::string& iconFilepath);
 
     virtual bool init() override;
     virtual void cleanUp() override;
@@ -25,18 +26,15 @@ public:
     void resetKeys();
 private:
     static constexpr unsigned int GL_MAJOR_V = 4, GL_MINOR_V = 2;
-    static constexpr auto GLFW_WINDOW_TITLE = "Needle";
     static constexpr unsigned int V_SYNC_FLAG = 1;
     static constexpr unsigned int GLFW_FULLSCREEN_FLAG = 0;
     static constexpr unsigned int GLFW_WINDOW_X = 640;
     static constexpr unsigned int GLFW_WINDOW_Y = 480;
-    static constexpr auto GLFW_ICON_FILEPATH = "./assets/window_icon.png";
-
 
     GLFWwindow* mGlfwWindow;
-    GLFWimage* mGlfwIcon;
     std::string mGlslVersion;
 
+    const std::string mTitle;
     const std::string mWindowIconPath;
 
     static std::array<bool, 1024> mInputs;

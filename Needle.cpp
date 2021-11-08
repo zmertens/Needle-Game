@@ -1,16 +1,20 @@
 #include "Needle.hpp"
 
+Needle::Needle(int argc, char** argv)
+: mGlfwHandler("Needle", "./assets/window_icon.png")
+{
+
+}
 
 int Needle::doStuff()
 {
-    #ifdef NEEDLE_DEBUG
-std::cout << "Entering Debug Mode" << std::endl;
-#endif
-
     using namespace std;
 
-    GlfwHandler glfwHandler;
-    if (!glfwHandler.init())
+#ifdef NEEDLE_DEBUG
+    cout << "Application DEBUG mode" << endl;
+#endif
+
+    if (!mGlfwHandler.init())
     {
         cout << "TERMINATING GLFW APPLICATION\r\n" << "GLFW or GLAD failed to init" << endl;
     }
@@ -19,16 +23,18 @@ std::cout << "Entering Debug Mode" << std::endl;
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-    ImGui_ImplOpenGL3_Init(glfwHandler.getGlString().c_str());
-    ImGui_ImplGlfw_InitForOpenGL(glfwHandler.getGlfwWindow(), true);
+    ImGui_ImplOpenGL3_Init(mGlfwHandler.getGlString().c_str());
+    ImGui_ImplGlfw_InitForOpenGL(mGlfwHandler.getGlfwWindow(), true);
 
     ImVec4 clearColor = ImVec4(0.35f, 0.55f, 0.71f, 1.0f);
-
-    while (!glfwWindowShouldClose(glfwHandler.getGlfwWindow()))
+#if defined(NEEDLE_DEBUG)
+    cout << "CHECKING BEFORE GAME LOOP" << endl;
+#endif // NEEDLE_DEBUG
+    while (!glfwWindowShouldClose(mGlfwHandler.getGlfwWindow()))
     {
         glfwPollEvents();
 
-        auto keys = glfwHandler.getKeys();
+        auto keys = mGlfwHandler.getKeys();
         if (keys[GLFW_KEY_DELETE])
         {
 #if defined(NEEDLE_DEBUG)
@@ -40,7 +46,7 @@ std::cout << "Entering Debug Mode" << std::endl;
             break;
         }
 
-        glfwHandler.resetKeys();
+        mGlfwHandler.resetKeys();
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -70,7 +76,7 @@ std::cout << "Entering Debug Mode" << std::endl;
         ImGui::Render();
 
         int displayWidth, displayHeight;
-        glfwGetFramebufferSize(glfwHandler.getGlfwWindow(), &displayWidth, &displayHeight);
+        glfwGetFramebufferSize(mGlfwHandler.getGlfwWindow(), &displayWidth, &displayHeight);
         glViewport(0, 0, displayWidth, displayHeight);
         glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -78,7 +84,7 @@ std::cout << "Entering Debug Mode" << std::endl;
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         // Double-Buffered, swap buffers
-        glfwHandler.swapBuffers();
+        mGlfwHandler.swapBuffers();
     }
 
     cout << "Application Cleanup" << endl;
@@ -86,5 +92,7 @@ std::cout << "Entering Debug Mode" << std::endl;
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    glfwHandler.cleanUp();
+    mGlfwHandler.cleanUp();
+
+    return EXIT_SUCCESS;
 }

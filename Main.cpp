@@ -14,10 +14,10 @@
 
 int main(int argc, char** argv)
 {
-    Needle needle;
     try
     {
-        needle.doStuff();
+        Needle needle (argc, argv);
+        const int stuff = needle.doStuff();
     }
     catch (std::exception& exception)
     {

@@ -17,6 +17,7 @@
 class Needle
 {
 public:
+    explicit Needle(int argc, char** argv);
     int doStuff();
 
 private:
