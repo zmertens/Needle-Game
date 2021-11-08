@@ -77,10 +77,8 @@ bool GlfwHandler::init()
 
     if (mWindowIconPath.compare("") != 0)
     {
-        int x, y, comps;
-        unsigned char* imageData = stbi_load(mWindowIconPath.c_str(), &x, &y, &comps, 1);
         GLFWimage glfwIcon[1];
-        glfwIcon->pixels = imageData;
+        glfwIcon->pixels = this->loadImages(mWindowIconPath);
         glfwSetWindowIcon(mGlfwWindow, 1, glfwIcon);
     }
 
@@ -111,15 +109,12 @@ void GlfwHandler::cleanUp()
     glfwTerminate();
 }
 
-/**
- * @TODO -- Plan is to utilize this and properly accept GFLWimage*
- */
-bool GlfwHandler::loadImages(std::string filepath)
+unsigned char* GlfwHandler::loadImages(std::string filepath)
 {
     int x, y, comps;
     unsigned char* imageData = stbi_load(filepath.c_str(), &x, &y, &comps, 1);
 
-    return true;
+    return imageData;
 }
 
 void GlfwHandler::swapBuffers() const

@@ -42,7 +42,7 @@ private:
     static void setErrorCallback(int error, const char* description);
     static void setKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-    bool loadImages(std::string filepath);
+    unsigned char* loadImages(std::string filepath);
 };
 
 #endif // GLFW_HANDLER
