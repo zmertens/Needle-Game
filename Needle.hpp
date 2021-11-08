@@ -23,6 +23,8 @@ public:
 private:
 
     GlfwHandler mGlfwHandler;
+
+    static void setFramebufferCallback(GLFWwindow* window, int width, int height);
 };
 
 #endif // NEEDLE_HPP

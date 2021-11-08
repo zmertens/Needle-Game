@@ -1,5 +1,13 @@
 #include "Needle.hpp"
 
+/**
+ * Statics
+ */
+void Needle::setFramebufferCallback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 Needle::Needle(int argc, char** argv)
 : mGlfwHandler("Needle", "./assets/window_icon.png")
 {
@@ -17,7 +25,10 @@ int Needle::doStuff()
     if (!mGlfwHandler.init())
     {
         cerr << "TERMINATING GLFW APPLICATION\r\n" << "GLFW or GLAD failed to init" << endl;
+        return EXIT_FAILURE;
     }
+
+    glfwSetFramebufferSizeCallback(mGlfwHandler.getGlfwWindow(), setFramebufferCallback);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -169,9 +180,6 @@ int Needle::doStuff()
         
         ImGui::End();
 
-        int displayWidth, displayHeight;
-        glfwGetFramebufferSize(mGlfwHandler.getGlfwWindow(), &displayWidth, &displayHeight);
-        glViewport(0, 0, displayWidth, displayHeight);
         glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
