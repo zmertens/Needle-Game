@@ -10,9 +10,11 @@
 #include <iostream>
 #include <cstdio>
 #include <array>
+#include <memory>
 
 #include "GlfwHandler.hpp"
 #include "ImguiHandler.hpp"
+#include "GlTriangle.hpp"
 
 class Needle
 {
@@ -21,8 +23,9 @@ public:
     int doStuff();
 
 private:
-
     GlfwHandler mGlfwHandler;
+
+    std::unique_ptr<GlTriangle> mGlTriangle;
 
     static void setFramebufferCallback(GLFWwindow* window, int width, int height);
 };
