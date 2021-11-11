@@ -52,3 +52,5 @@ libs/glm-0.9.7
 libs/box2d
 !libs/stb
 !libs/.gitkeep
+
+.vscode
