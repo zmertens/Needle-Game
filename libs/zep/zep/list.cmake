@@ -11,6 +11,10 @@ ${ZEP_ROOT}/../m3rdparty/file/archive.cpp
 ${ZEP_ROOT}/../m3rdparty/file/path.h
 ${ZEP_ROOT}/../m3rdparty/file/path.cpp
 ${ZEP_ROOT}/../m3rdparty/logger.h
+${ZEP_ROOT}/imgui/display_imgui.cpp
+${ZEP_ROOT}/imgui/display_imgui.h
+${ZEP_ROOT}/imgui/editor_imgui.cpp
+${ZEP_ROOT}/imgui/editor_imgui.h
 ${ZEP_ROOT}/filesystem.cpp
 ${ZEP_ROOT}/filesystem.h
 ${ZEP_ROOT}/editor.cpp
@@ -48,7 +52,7 @@ ${ZEP_ROOT}/theme.h
 ${ZEP_ROOT}/list.cmake
 )
 
-LIST(APPEND SRC_INCLUDE ${ZEP_ROOT}/src ${ZEP_ROOT}/../)
+LIST(APPEND SRC_INCLUDE ${ZEP_ROOT})
 
 # IF (BUILD_QT)
 # SET(ZEP_SOURCE_QT
@@ -62,10 +66,10 @@ LIST(APPEND SRC_INCLUDE ${ZEP_ROOT}/src ${ZEP_ROOT}/../)
 
 # IF (BUILD_IMGUI)
 # SET(ZEP_SOURCE_IMGUI
-#     ${ZEP_ROOT}/src/imgui/display_imgui.cpp
-#     ${ZEP_ROOT}/src/imgui/display_imgui.h
-#     ${ZEP_ROOT}/src/imgui/editor_imgui.cpp
-#     ${ZEP_ROOT}/src/imgui/editor_imgui.h)
+    # ${ZEP_ROOT}/imgui/display_imgui.cpp
+    # ${ZEP_ROOT}/imgui/display_imgui.h
+    # ${ZEP_ROOT}/imgui/editor_imgui.cpp
+    # ${ZEP_ROOT}/imgui/editor_imgui.h)
 # SET(ZEP_INCLUDE_IMGUI ${ZEP_ROOT}/src/qt)
 # ENDIF()
 

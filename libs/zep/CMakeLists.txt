@@ -72,14 +72,15 @@ SET (APPLICATION_VERSION "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MIN
     # ./
     # ) 
 
-SET (ZEP_ROOT ${CMAKE_CURRENT_LIST_DIR})
+SET (ZEP_ROOT ${CMAKE_SOURCE_DIR}/zep)
 INCLUDE(zep/list.cmake)
 
 # Create the library - No depenencies on anything else in this file
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${ZEP_SOURCE} ${ZEP_INCLUDE})
 # Need to include m3rdparty
-TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE ZEP_ROOT)
-# ADD_DEPENDENCIES(${PROJECT_NAME} zep)
+TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE ${ZEP_ROOT}) 
+target_link_libraries(${PROJECT_NAME} dear_imgui OpenGL::GL)
+target_include_directories(${PROJECT_NAME} PRIVATE ${DEAR_IMGUI_DIR} ${DEAR_IMGUI_DIR}/backends)
 
 # Create the ImGUI version of the app
 # IF (BUILD_IMGUI)

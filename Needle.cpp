@@ -1,13 +1,8 @@
 #include "Needle.hpp"
 
-// Zep libraries
-#include <zep/imgui/display_imgui.h>
-#include <zep/imgui/editor_imgui.h>
-#include <zep/mode_standard.h>
-#include <zep/mode_vim.h>
-#include <zep/theme.h>
-#include <zep/tab_window.h>
-#include <zep/window.h>
+#include "ZepHandler.hpp"
+
+#include <iostream>
 
 /**
  * Statics
@@ -20,6 +15,7 @@ void Needle::setFramebufferCallback(GLFWwindow* window, int width, int height)
 Needle::Needle(int argc, char** argv)
 : mGlfwHandler("Needle", "./assets/window_icon.png")
 , mGlTriangle(new GlTriangle())
+, mZepHandler("")
 {
 
 }
@@ -77,12 +73,8 @@ int Needle::doStuff()
         frag_color = in_color;
     }
     )R";
-    // A helper struct for Zep to init the editor and handle callbacks
-//     struct ZepContainer : public IZepComponent
-//     {
-//         ZepContainer(const std::string& startupFilePath)
-//             : spEditor(std::make_unique<ZepEditor_ImGui>(ZEP_ROOT))
-//         {
+    
+    // std::shared_ptr<Zep::ZepEditor_ImGui> ptr;
 
 //             // File watcher not used on apple yet ; needs investigating as to why it doesn't compile/run 
 // #ifndef __APPLE__
@@ -167,15 +159,12 @@ int Needle::doStuff()
 //             return *spEditor;
 //         }
 
-//         bool quit = false;
-//         std::unique_ptr<ZepEditor_ImGui> spEditor;
-//     };
-//     ZepContainer zep ("");
+        bool quit = false;
+        // std::unique_ptr<ZepEditor_ImGui> spEditor;
+    // };
+    mZepHandler.init();
 
     ImVec4 clearColor = ImVec4(0.35f, 0.55f, 0.71f, 1.0f);
-#if defined(NEEDLE_DEBUG)
-    cout << "Starting game loop" << endl;
-#endif // NEEDLE_DEBUG
     while (!glfwWindowShouldClose(mGlfwHandler.getGlfwWindow()))
     {
         glfwPollEvents();
@@ -257,7 +246,7 @@ int Needle::doStuff()
     cout << "Application Cleanup" << endl;
 
     mGlTriangle->cleanUp();
-
+    mZepHandler.cleanUp();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

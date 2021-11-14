@@ -8,7 +8,7 @@
 #include "editor.h"
 #include "filesystem.h"
 #include "../m3rdparty/file/path.h"
-#include "../m3rdparty/string/stringutils.h"
+#include "../m3rdparty/string/stringutils.h" 
 
 #include "../m3rdparty/logger.h"
 
