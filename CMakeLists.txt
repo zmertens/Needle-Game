@@ -25,6 +25,7 @@ message(${META_PROJECT_NAME} " " ${META_PROJECT_ID})
 # Require C++11
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(CMAKE_BUILD_TYPE_INIT "RelWithDebInfo")
 
@@ -83,6 +84,7 @@ target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw ${GLFW_LIBRARIES} glad dea
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLFW_DIR}/include
     ${DEAR_IMGUI_DIR} ${DEAR_IMGUI_DIR}/backends ${GLM_DIR} ${STB_IMAGE} ${ZEP_DIR})
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
+
 # Check if we need DEBUG compiler definition
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
 if(cmake_build_type_tolower STREQUAL "debug" OR
