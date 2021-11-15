@@ -50,119 +50,8 @@ int Needle::doStuff()
         cout << "GL Objects Initialized Successfully" << endl;
 #endif 
     }
-
-    // Zep variables and fields
-    const std::string shader = R"R(
-    #version 330 core
-
-    uniform mat4 Projection;
-
-    // Coordinates  of the geometry
-    layout(location = 0) in vec3 in_position;
-    layout(location = 1) in vec2 in_tex_coord;
-    layout(location = 2) in vec4 in_color;
-
-    // Outputs to the pixel shader
-    out vec2 frag_tex_coord;
-    out vec4 frag_color;
-
-    void main()
-    {
-        gl_Position = Projection * vec4(in_position.xyz, 1.0);
-        frag_tex_coord = in_tex_coord;
-        frag_color = in_color;
-    }
-    )R";
     
-    // std::shared_ptr<Zep::ZepEditor_ImGui> ptr;
-
-//             // File watcher not used on apple yet ; needs investigating as to why it doesn't compile/run 
-// #ifndef __APPLE__
-// MUtils::Watcher::Instance().AddWatch(ZEP_ROOT, [&](const ZepPath & path)
-// {
-//     spEditor->OnFileChanged(path);
-// }, false);
-// #endif
-
-//             spEditor->RegisterCallback(this);
-
-//             float ddpi = 0.0f;
-//             float hdpi = 0.0f;
-//             float vdpi = 0.0f;
-//             auto res = SDL_GetDisplayDPI(0, &ddpi, &hdpi, &vdpi);
-//             if (res == 0 && hdpi != 0)
-//             {
-//                 spEditor->SetPixelScale(hdpi / 96.0f);
-//             }
-
-//             if (!startupFilePath.empty())
-//             {
-//                 spEditor->InitWithFileOrDir(startupFilePath);
-//             }
-//             else
-//             {
-//                 spEditor->InitWithText("Shader.vert", shader);
-//             }
-//         }
-
-//         ZepContainer()
-//         {
-//             spEditor->UnRegisterCallback(this);
-//         }
-
-//         // Inherited via IZepComponent
-//         virtual void Notify(std::shared_ptr<ZepMessage> message) override
-//         {
-//             if (message->messageId == Msg::Tick)
-//             {
-// #ifndef __APPLE__
-// MUtils::Watcher::Instance().Update();
-// #endif
-//             }
-//             else if (message->messageId == Msg::Quit)
-//             {
-//                 quit = true;
-//             }
-//             else if (message->messageId == Msg::ToolTip)
-//             {
-//                 auto spTipMsg = std::static_pointer_cast<ToolTipMessage>(message);
-//                 if (spTipMsg->location != -1l && spTipMsg->pBuffer)
-//                 {
-//                     auto pSyntax = spTipMsg->pBuffer->GetSyntax();
-//                     if (pSyntax)
-//                     {
-//                         if (pSyntax->GetSyntaxAt(spTipMsg->location) == ThemeColor::Identifier)
-//                         {
-//                             auto spMarker = std::make_shared<RangeMarker>();
-//                             spMarker->description = "This is an identifier";
-//                             spMarker->highlightColor = ThemeColor::Identifier;
-//                             spMarker->textColor = ThemeColor::Text;
-//                             spTipMsg->spMarker = spMarker;
-//                             spTipMsg->handled = true;
-//                         }
-//                         else if (pSyntax->GetSyntaxAt(spTipMsg->location) == ThemeColor::Keyword)
-//                         {
-//                             auto spMarker = std::make_shared<RangeMarker>();
-//                             spMarker->description = "This is a keyword";
-//                             spMarker->highlightColor = ThemeColor::Keyword;
-//                             spMarker->textColor = ThemeColor::Text;
-//                             spTipMsg->spMarker = spMarker;
-//                             spTipMsg->handled = true;
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-
-//         virtual ZepEditor& GetEditor() const override
-//         {
-//             return *spEditor;
-//         }
-
-        bool quit = false;
-        // std::unique_ptr<ZepEditor_ImGui> spEditor;
-    // };
-    mZepHandler.init();
+    // mZepHandler.init();
 
     ImVec4 clearColor = ImVec4(0.35f, 0.55f, 0.71f, 1.0f);
     while (!glfwWindowShouldClose(mGlfwHandler.getGlfwWindow()))
@@ -211,6 +100,75 @@ int Needle::doStuff()
         glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // if (ImGui::BeginMainMenuBar())
+        // {
+        //     if (ImGui::BeginMenu("Settings"))
+        //     {
+        //         if (ImGui::BeginMenu("Editor Mode"))
+        //         {
+        //             bool enabledVim = strcmp(mZepHandler.getEditor()->GetCurrentMode()->Name(), Zep::ZepMode_Vim::StaticName()) == 0;
+        //             bool enabledNormal = !enabledVim;
+        //             if (ImGui::MenuItem("Vim", "CTRL+2", &enabledVim))
+        //             {
+        //                 mZepHandler.getEditor()->SetMode(Zep::ZepMode_Vim::StaticName());
+        //             }
+        //             else if (ImGui::MenuItem("Standard", "CTRL+1", &enabledNormal))
+        //             {
+        //                 mZepHandler.getEditor()->SetMode(Zep::ZepMode_Standard::StaticName());
+        //             }
+        //             ImGui::EndMenu();
+        //         }
+
+        //         if (ImGui::BeginMenu("Theme"))
+        //         {
+        //             bool enabledDark = mZepHandler.getEditor()->GetTheme().GetThemeType() == Zep::ThemeType::Dark ? true : false;
+        //             bool enabledLight = !enabledDark;
+
+        //             if (ImGui::MenuItem("Dark", "", &enabledDark))
+        //             {
+        //                 mZepHandler.getEditor()->GetTheme().SetThemeType(Zep::ThemeType::Dark);
+        //             }
+        //             else if (ImGui::MenuItem("Light", "", &enabledLight))
+        //             {
+        //                 mZepHandler.getEditor()->GetTheme().SetThemeType(Zep::ThemeType::Light);
+        //             }
+        //             ImGui::EndMenu();
+        //         }
+        //         ImGui::EndMenu();
+        //     }
+
+        //     if (ImGui::BeginMenu("Window"))
+        //     {
+        //         auto pTabWindow = mZepHandler.getEditor()->GetActiveTabWindow();
+        //         if (ImGui::MenuItem("Horizontal Split"))
+        //         {
+        //             pTabWindow->AddWindow(&pTabWindow->GetActiveWindow()->GetBuffer(), pTabWindow->GetActiveWindow(), false);
+        //         }
+        //         else if (ImGui::MenuItem("Vertical Split"))
+        //         {
+        //             pTabWindow->AddWindow(&pTabWindow->GetActiveWindow()->GetBuffer(), pTabWindow->GetActiveWindow(), true);
+        //         }
+        //         ImGui::EndMenu();
+        //     }
+
+            // Helpful for diagnostics
+            // Make sure you run a release build; iterator debugging makes the debug build much slower
+            // Currently on a typical file, editor display time is < 1ms, and editor editor time is < 2ms
+            // if (ImGui::BeginMenu("Timings"))
+            // {
+            //     for (auto& p : globalProfiler.timerData)
+            //     { 
+            //         std::ostringstream strval;
+            //         strval << p.first << " : " << p.second.current / 1000.0 << "ms";// << " Last: " << p.second.current / 1000.0 << "ms";
+            //         ImGui::MenuItem(strval.str().c_str());
+            //     }
+            //     ImGui::EndMenu();
+            // }
+
+            // ImGui::EndMainMenuBar();
+        // }
+
+
         // This is a bit messy; and I have no idea why I don't need to remove the menu fixed_size from the calculation!
         int w, h, displayMode;
         glfwGetFramebufferSize(mGlfwHandler.getGlfwWindow(), &w, &h);
@@ -229,11 +187,11 @@ int Needle::doStuff()
         ImGui::InvisibleButton("ZepContainer", ImGui::GetWindowSize());
 
         // // TODO: Change only when necessray
-        // zep.spEditor->SetDisplayRegion(toNVec2f(ImGui::GetWindowPos()), toNVec2f(ImGui::GetWindowSize()));
+        // mZepHandler.setDisplayRegion(Zep::toNVec2f(ImGui::GetWindowPos()), Zep::toNVec2f(ImGui::GetWindowSize()));
 
         // // Display the editor inside this window
-        // zep.spEditor->Display();
-        // zep.spEditor->HandleInput();
+        // mZepHandler.display();
+        // mZepHandler.handleInput();
 
         mGlTriangle->draw();
         ImGui::Render();
@@ -246,7 +204,7 @@ int Needle::doStuff()
     cout << "Application Cleanup" << endl;
 
     mGlTriangle->cleanUp();
-    mZepHandler.cleanUp();
+    // mZepHandler.cleanUp();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

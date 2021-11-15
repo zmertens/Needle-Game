@@ -25,9 +25,15 @@ public:
     virtual bool init() override;
     virtual void cleanUp() override;
 
+    void notify();
+    void display();
+    void handleInput();
+    void setDisplayRegion(const Zep::NVec2f& pos, const Zep::NVec2f& size);
+    const std::unique_ptr<Zep::ZepEditor_ImGui>& getEditor() const;
+
 private:
-    // std::unique_ptr<Zep::ZepEditor_ImGui> mEditor;
     std::unique_ptr<Zep::ZepBuffer> mBuffer;
+    std::unique_ptr<Zep::ZepEditor_ImGui> mEditor;
 };
 
 #endif // ZEPHANDLER_HPP
