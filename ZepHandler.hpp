@@ -33,6 +33,7 @@ public:
     void setDisplayRegion(const Zep::NVec2f& pos, const Zep::NVec2f& size);
 
 private:
+    bool mQuit;
     std::unique_ptr<Zep::ZepEditor_ImGui> mEditor;
 };
 

@@ -97,16 +97,18 @@ int Needle::doStuff()
         glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Save battery by skipping display if not required.
+        // This will check for cursor flash, for example, to keep that updated.
+        if (!mZepHandler.GetEditor().RefreshRequired())
+        {
+            // continue;
+        }
+
+        // Display the editor inside this window
         int w, h, displayMode;
         glfwGetFramebufferSize(mGlfwHandler.getGlfwWindow(), &w, &h);
-        mZepHandler.display(w, h);
-
-        // // TODO: Change only when necessray
-        // mZepHandler.setDisplayRegion(Zep::toNVec2f(ImGui::GetWindowPos()), Zep::toNVec2f(ImGui::GetWindowSize()));
-
-        // // Display the editor inside this window
-        // mZepHandler.display();
-        // mZepHandler.handleInput();
+        // Display and handle input must go together
+        mZepHandler.display(w, h); mZepHandler.handleInput();
 
         mGlTriangle->draw();
         ImGui::Render();
