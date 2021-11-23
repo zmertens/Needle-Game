@@ -45,19 +45,22 @@ ZepEditor::ZepEditor(ZepDisplay* pDisplay,const ZepPath& root, uint32_t flags, I
     , m_flags(flags)
     , m_rootPath(root)
 {
-
+    // printf("Hello in file: %s", __FILE__);
 #if defined(ZEP_FEATURE_CPP_FILE_SYSTEM)
     if (m_pFileSystem == nullptr)
     {
-        // m_pFileSystem = new ZepFileSystemCPP();
+    m_pFileSystem = new ZepFileSystemCPP();
     }
 #else
     if (m_pFileSystem == nullptr)
     {
-        assert(!"Must supply a file system - no default available on this platform!");
-        throw std::invalid_argument("pFileSystem");
+        // assert(!"Must supply a file system - no default available on this platform!");
+        const char* fileSysInfo = "pFileSystem is invalid\n";
+        printf(fileSysInfo);
     }
 #endif
+
+    // std::cout << "Hello World from editor cpp" << std::endl;
 
     if (m_flags & ZepEditorFlags::DisableThreads)
     {
@@ -68,7 +71,7 @@ ZepEditor::ZepEditor(ZepDisplay* pDisplay,const ZepPath& root, uint32_t flags, I
         m_threadPool = std::make_unique<ThreadPool>();
     }
 
-    LoadConfig(root / "zep.cfg");
+    // LoadConfig(root / "zep.cfg");
 
     m_spTheme = std::make_shared<ZepTheme>();
 

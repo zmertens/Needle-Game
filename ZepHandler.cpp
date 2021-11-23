@@ -4,9 +4,9 @@
 #include <zep/buffer.h>
 
 ZepHandler::ZepHandler(const std::string &startupFilePath)
-: mBuffer()
-// , mEditor(new Zep::ZepEditor_ImGui(""))
+    : mEditor(new Zep::ZepEditor_ImGui(startupFilePath))
 {
+    mEditor->RegisterCallback(this);
 }
 
 bool ZepHandler::init()
@@ -34,23 +34,103 @@ bool ZepHandler::init()
     }
     )R";
 
-    // mEditor->RegisterCallback(this);
-    // mEditor->InitWithText("Shader.vert", shader);
+    mEditor->InitWithText("Shader.vert", shader);
+
+    return true;
 }
 
 void ZepHandler::cleanUp()
 {
-
 }
 
-void ZepHandler::notify()
+void ZepHandler::Notify(std::shared_ptr<Zep::ZepMessage> message)
 {
 
 }
 
-void ZepHandler::display()
+Zep::ZepEditor& ZepHandler::GetEditor() const
 {
-    // mEditor->Display();
+    return *mEditor;
+}
+
+void ZepHandler::display(unsigned int width, unsigned int height)
+{
+    ImGui::Begin("Zep Stuff");
+    // std::cout << "Zepp Stuff" << std::endl;
+    ImGui::End();
+
+    // Zep Window
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("Settings"))
+        {
+            if (ImGui::BeginMenu("Editor Mode"))
+            {
+                bool enabledVim = true;
+                // bool enabledVim = strcmp(mZepHandler.getEditor()->GetCurrentMode()->Name(), Zep::ZepMode_Vim::StaticName()) == 0;
+                bool enabledNormal = !enabledVim;
+                if (ImGui::MenuItem("Vim", "CTRL+2", &enabledVim))
+                {
+                    mEditor->SetMode(Zep::ZepMode_Vim::StaticName());
+                }
+                else if (ImGui::MenuItem("Standard", "CTRL+1", &enabledNormal))
+                {
+                    mEditor->SetMode(Zep::ZepMode_Standard::StaticName());
+                }
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Theme"))
+            {
+                bool enabledDark = mEditor->GetTheme().GetThemeType() == Zep::ThemeType::Dark ? true : false;
+                bool enabledLight = !enabledDark;
+
+                if (ImGui::MenuItem("Dark", "", &enabledDark))
+                {
+                    mEditor->GetTheme().SetThemeType(Zep::ThemeType::Dark);
+                }
+                else if (ImGui::MenuItem("Light", "", &enabledLight))
+                {
+                    mEditor->GetTheme().SetThemeType(Zep::ThemeType::Light);
+                }
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Window"))
+        {
+            auto pTabWindow = mEditor->GetActiveTabWindow();
+            if (ImGui::MenuItem("Horizontal Split"))
+            {
+                pTabWindow->AddWindow(&pTabWindow->GetActiveWindow()->GetBuffer(), pTabWindow->GetActiveWindow(), false);
+            }
+            else if (ImGui::MenuItem("Vertical Split"))
+            {
+                pTabWindow->AddWindow(&pTabWindow->GetActiveWindow()->GetBuffer(), pTabWindow->GetActiveWindow(), true);
+            }
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMainMenuBar();
+    }
+
+    // This is a bit messy; and I have no idea why I don't need to remove the menu fixed_size from the calculation!
+
+    auto menuSize = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
+    ImGui::SetNextWindowPos(ImVec2(0, menuSize));
+    ImGui::SetNextWindowSize(ImVec2(float(width), float(height))); // -menuSize)));
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+    ImGui::Begin("Zep", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar /*| ImGuiWindowFlags_NoScrollbar*/);
+    ImGui::PopStyleVar(4);
+
+    // 'hide' the window contents from ImGui, so it doesn't try dragging when we move our scrollbar, etc.
+    ImGui::InvisibleButton("ZepContainer", ImGui::GetWindowSize());
+    ImGui::End();
 }
 
 void ZepHandler::handleInput()
@@ -58,12 +138,7 @@ void ZepHandler::handleInput()
     // mEditor->HandleInput();
 }
 
-void ZepHandler::setDisplayRegion(const Zep::NVec2f& pos, const Zep::NVec2f& size)
+void ZepHandler::setDisplayRegion(const Zep::NVec2f &pos, const Zep::NVec2f &size)
 {
     // mEditor->SetDisplayRegion(pos, size);
-}
-
-const std::unique_ptr<Zep::ZepEditor_ImGui>& ZepHandler::getEditor() const
-{
-    return mEditor;
 }

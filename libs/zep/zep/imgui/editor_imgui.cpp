@@ -13,8 +13,9 @@ namespace Zep
 {
 
 ZepEditor_ImGui::ZepEditor_ImGui(const ZepPath& root, IZepFileSystem* pFileSystem)
-    : ZepEditor(new ZepDisplay_ImGui(), root, 0, pFileSystem)
+    : ZepEditor(new ZepDisplay_ImGui(), root, 0)
 {
+    // printf("JHELLO HELP");
 }
 
 void ZepEditor_ImGui::HandleInput()
