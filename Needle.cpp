@@ -82,17 +82,17 @@ int Needle::doStuff()
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-#if defined(NEEDLE_DEBUG)
         static unsigned int timer = 0;
         if (timer >= 60)
         {
+#if defined(NEEDLE_DEBUG)
             cout << "Application average %.3f ms/frame (%.1f FPS): " <<
                 (1000.0f / ImGui::GetIO().Framerate) << " " << ImGui::GetIO().Framerate << endl;
+#endif // NEEDLE_DEBUG
             timer = 0;
         }
         
         timer += 1;
-#endif // NEEDLE_DEBUG
 
         glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
