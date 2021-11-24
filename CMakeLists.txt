@@ -25,6 +25,7 @@ message(${META_PROJECT_NAME} " " ${META_PROJECT_ID})
 # Require C++11
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(CMAKE_BUILD_TYPE_INIT "RelWithDebInfo")
 
@@ -51,7 +52,7 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
 endif()
 
-set(SOURCES Main.cpp Needle.cpp GlfwHandler.cpp ImguiHandler.cpp GlTriangle.cpp)
+set(SOURCES Main.cpp Needle.cpp GlfwHandler.cpp ImguiHandler.cpp ZepHandler.cpp GlTriangle.cpp)
 
 # add_exe needs to happen before link libraries
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -71,15 +72,19 @@ target_sources(dear_imgui PRIVATE ${DEAR_IMGUI_DIR}/backends/imgui_impl_glfw.cpp
 target_link_libraries(dear_imgui OpenGL::GL glfw ${GLFW_LIBRARIES})
 target_include_directories(dear_imgui PRIVATE ${GLFW_DIR}/include ${DEAR_IMGUI_DIR} ${DEAR_IMGUI_DIR}/backends)
 
+set(ZEP_DIR ${LIB_DIR}/zep)
+add_subdirectory(${ZEP_DIR})
+
 set(GLM_DIR ${LIB_DIR}/glm-0.9.7)
 
 set(STB_IMAGE ${LIB_DIR}/stb)
 
 include_directories(${OPENGL_INCLUDE_DIR})
-target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw ${GLFW_LIBRARIES} glad dear_imgui ${CMAKE_DL_LIBS})
+target_link_libraries(${PROJECT_NAME} OpenGL::GL glfw ${GLFW_LIBRARIES} glad dear_imgui zep ${CMAKE_DL_LIBS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${GLFW_DIR}/include
-    ${DEAR_IMGUI_DIR} ${DEAR_IMGUI_DIR}/backends ${GLM_DIR} ${STB_IMAGE})
+    ${DEAR_IMGUI_DIR} ${DEAR_IMGUI_DIR}/backends ${GLM_DIR} ${STB_IMAGE} ${ZEP_DIR})
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
+
 # Check if we need DEBUG compiler definition
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
 if(cmake_build_type_tolower STREQUAL "debug" OR

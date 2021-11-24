@@ -1,5 +1,9 @@
 #include "Needle.hpp"
 
+#include "ZepHandler.hpp"
+
+#include <iostream>
+
 /**
  * Statics
  */
@@ -11,6 +15,7 @@ void Needle::setFramebufferCallback(GLFWwindow* window, int width, int height)
 Needle::Needle(int argc, char** argv)
 : mGlfwHandler("Needle", "./assets/window_icon.png")
 , mGlTriangle(new GlTriangle())
+, mZepHandler("")
 {
 
 }
@@ -39,18 +44,17 @@ int Needle::doStuff()
     ImGui_ImplGlfw_InitForOpenGL(mGlfwHandler.getGlfwWindow(), true);
 
     bool glInitSuccess = mGlTriangle->init();
-    if (glInitSuccess)
+    if (!glInitSuccess)
     {
-#if defined(NEEDLE_DEBUG)
-        cout << "GL Objects Initialized Successfully" << endl;
-#endif 
+        cerr << "GL Objects failed to initialize" << endl;
+    }
+    
+    if (!mZepHandler.init())
+    {
+        cerr << "Zep Handler did not init" << endl;
     }
 
-
     ImVec4 clearColor = ImVec4(0.35f, 0.55f, 0.71f, 1.0f);
-#if defined(NEEDLE_DEBUG)
-    cout << "Starting game loop" << endl;
-#endif // NEEDLE_DEBUG
     while (!glfwWindowShouldClose(mGlfwHandler.getGlfwWindow()))
     {
         glfwPollEvents();
@@ -78,27 +82,33 @@ int Needle::doStuff()
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        ImGui::Begin("Stuff");
-
-#if defined(NEEDLE_DEBUG)
         static unsigned int timer = 0;
         if (timer >= 60)
         {
+#if defined(NEEDLE_DEBUG)
             cout << "Application average %.3f ms/frame (%.1f FPS): " <<
                 (1000.0f / ImGui::GetIO().Framerate) << " " << ImGui::GetIO().Framerate << endl;
+#endif // NEEDLE_DEBUG
             timer = 0;
         }
         
         timer += 1;
-#endif // NEEDLE_DEBUG
-        
-        ImGui::End();
 
         glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // render
-        // ------
+        // Save battery by skipping display if not required.
+        // This will check for cursor flash, for example, to keep that updated.
+        if (!mZepHandler.GetEditor().RefreshRequired())
+        {
+            // continue;
+        }
+
+        // Display the editor inside this window
+        int w, h, displayMode;
+        glfwGetFramebufferSize(mGlfwHandler.getGlfwWindow(), &w, &h);
+        // Display and handle input must go together
+        mZepHandler.display(w, h); mZepHandler.handleInput();
 
         mGlTriangle->draw();
         ImGui::Render();
@@ -111,7 +121,7 @@ int Needle::doStuff()
     cout << "Application Cleanup" << endl;
 
     mGlTriangle->cleanUp();
-
+    mZepHandler.cleanUp();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
