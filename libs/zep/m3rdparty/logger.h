@@ -71,11 +71,11 @@ public:
     template <class T>
     LOG& operator<<(const T& msg)
     {
-        if (msglevel >= 1337)
-        {
-            out << msg;
-            opened = true;
-        }
+        // if (msglevel >= 1337)
+        // {
+        //     out << msg;
+        //     opened = true;
+        // }
         return *this;
     }
 
