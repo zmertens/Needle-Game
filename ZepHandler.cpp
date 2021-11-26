@@ -3,6 +3,8 @@
 #include <m3rdparty/animation/timer.h>
 #include <zep/buffer.h>
 
+#include <cstdio>
+
 ZepHandler::ZepHandler(const std::string &startupFilePath)
     : mEditor(new Zep::ZepEditor_ImGui(startupFilePath))
 {
@@ -35,12 +37,36 @@ bool ZepHandler::init()
     )R";
 
     mEditor->InitWithText("Shader.vert", shader);
-
+    
+#if defined(NEEDLE_DEBUG)
+    auto& activeBuffer = mEditor->GetActiveTabWindow()->GetActiveWindow()->GetBuffer();
+    printf("Active buffer name: %s\r\n", activeBuffer.GetName().c_str());
+#endif // NEEDLE_DEBUG
+    
     return true;
 }
 
 void ZepHandler::cleanUp()
 {
+}
+
+std::string ZepHandler::getTextFromActiveBuffer() const
+{
+    std::string txt = "";
+    auto& activeBuffer = mEditor->GetActiveTabWindow()->GetActiveWindow()->GetBuffer();
+    auto itrBegin = activeBuffer.GetText().begin();
+    auto itrEnd = activeBuffer.GetText().end();
+    for (itrBegin; itrBegin != itrEnd; itrBegin++)
+    {
+        txt += *itrBegin;
+    }
+    return txt;
+}
+
+void ZepHandler::setTextToActiveBuffer(const std::string& str) const
+{
+    auto& activeBuffer = mEditor->GetActiveTabWindow()->GetActiveWindow()->GetBuffer();
+    activeBuffer.SetText(str);
 }
 
 void ZepHandler::Notify(std::shared_ptr<Zep::ZepMessage> message)
@@ -93,10 +119,6 @@ Zep::ZepEditor& ZepHandler::GetEditor() const
 
 void ZepHandler::display(unsigned int width, unsigned int height)
 {
-    ImGui::Begin("Zep Stuff");
-    // std::cout << "Zepp Stuff" << std::endl;
-    ImGui::End();
-
     // Zep Window
     // if (ImGui::BeginMainMenuBar())
     // {
@@ -170,8 +192,12 @@ void ZepHandler::display(unsigned int width, unsigned int height)
     // ImGui::InvisibleButton("ZepContainer", ImGui::GetWindowSize());
     // ImGui::End();
 
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(ImVec2(float(640), float(480)));
+
     mEditor->SetDisplayRegion(Zep::toNVec2f(ImGui::GetWindowPos()), Zep::toNVec2f(ImGui::GetWindowSize()));
     mEditor->Display();
+    ImGui::End();
 }
 
 void ZepHandler::handleInput()

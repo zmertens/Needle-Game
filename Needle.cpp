@@ -14,6 +14,7 @@ Needle::Needle(int argc, char** argv)
 : mGlfwHandler("Needle", "./assets/window_icon.png")
 , mGlTriangle(new GlTriangle())
 , mZepHandler("")
+, mHaystack("My haystack")
 {
 
 }
@@ -66,17 +67,19 @@ int Needle::doStuff()
         }
         else if (keys[GLFW_KEY_ESCAPE])
         {
-            break;
+            // break;
         }
 
         mGlfwHandler.resetKeys();
+
+        mHaystack = mZepHandler.getTextFromActiveBuffer();
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        static bool show_demo_window = true;
+        static bool show_demo_window = false;
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
@@ -86,6 +89,7 @@ int Needle::doStuff()
 #if defined(NEEDLE_DEBUG)
             cout << "Application average %.3f ms/frame (%.1f FPS): " <<
                 (1000.0f / ImGui::GetIO().Framerate) << " " << ImGui::GetIO().Framerate << endl;
+            // cout << "Haystack: " << mHaystack << endl;
 #endif // NEEDLE_DEBUG
             timer = 0;
         }

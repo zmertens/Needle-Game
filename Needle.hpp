@@ -28,6 +28,8 @@ private:
     std::unique_ptr<GlTriangle> mGlTriangle;
     ZepHandler mZepHandler;
 
+    std::string mHaystack;
+
     static void setFramebufferCallback(GLFWwindow* window, int width, int height);
 };
 

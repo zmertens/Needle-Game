@@ -25,6 +25,9 @@ public:
     virtual bool init() override;
     virtual void cleanUp() override;
 
+    std::string getTextFromActiveBuffer() const;
+    void setTextToActiveBuffer(const std::string& str) const;
+
     virtual void Notify(std::shared_ptr<Zep::ZepMessage> message) override;
     virtual Zep::ZepEditor& GetEditor() const override;
 
