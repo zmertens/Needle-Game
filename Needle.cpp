@@ -14,6 +14,7 @@ Needle::Needle(int argc, char** argv)
 : mGlfwHandler("Needle", "./assets/window_icon.png")
 , mGlTriangle(new GlTriangle())
 , mZepHandler("")
+, mFileHandler()
 , mHaystack("My haystack")
 {
 
@@ -53,6 +54,19 @@ int Needle::doStuff()
         cerr << "Zep Handler did not init" << endl;
     }
 
+    if (!mFileHandler.init())
+    {
+        cerr << "Filehandler did not init" << endl;
+    }
+
+    string fileContents = mFileHandler.readFile("./assets/heiroglyphics.md");
+
+#if defined(NEEDLE_DEBUG)
+        cout << "File contents:\r\n" << fileContents << endl;
+#endif // NEEDLE_DEBUG
+
+    mHaystack.append(fileContents);
+
     ImVec4 clearColor = ImVec4(0.35f, 0.55f, 0.71f, 1.0f);
     while (!glfwWindowShouldClose(mGlfwHandler.getGlfwWindow()))
     {
@@ -72,7 +86,7 @@ int Needle::doStuff()
 
         mGlfwHandler.resetKeys();
 
-        mHaystack = mZepHandler.getTextFromActiveBuffer();
+        auto bufferStr = mZepHandler.getTextFromActiveBuffer();
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -89,7 +103,7 @@ int Needle::doStuff()
 #if defined(NEEDLE_DEBUG)
             cout << "Application average %.3f ms/frame (%.1f FPS): " <<
                 (1000.0f / ImGui::GetIO().Framerate) << " " << ImGui::GetIO().Framerate << endl;
-            // cout << "Haystack: " << mHaystack << endl;
+            cout << "Haystack: " << mHaystack << endl;
 #endif // NEEDLE_DEBUG
             timer = 0;
         }
@@ -124,6 +138,7 @@ int Needle::doStuff()
 
     mGlTriangle->cleanUp();
     mZepHandler.cleanUp();
+    mFileHandler.cleanUp();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

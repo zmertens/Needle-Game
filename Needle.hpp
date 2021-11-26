@@ -15,6 +15,7 @@
 #include "GlfwHandler.hpp"
 #include "GlTriangle.hpp"
 #include "ZepHandler.hpp"
+#include "FileHandler.hpp"
 
 class Needle
 {
@@ -27,7 +28,7 @@ private:
 
     std::unique_ptr<GlTriangle> mGlTriangle;
     ZepHandler mZepHandler;
-
+    FileHandler mFileHandler;
     std::string mHaystack;
 
     static void setFramebufferCallback(GLFWwindow* window, int width, int height);
