@@ -13,3 +13,9 @@
 [submodule "libs/box2d"]
 	path = libs/box2d
 	url = https://github.com/erincatto/box2d.git
+[submodule "tools/asciify"]
+	path = tools/asciify
+	url = https://github.com/RameshAditya/asciify.git
+[submodule "libs/dawg"]
+	path = libs/dawg
+	url = https://github.com/reedacartwright/dawg.git
