@@ -196,11 +196,14 @@ void ZepHandler::display(unsigned int width, unsigned int height)
     // ImGui::InvisibleButton("ZepContainer", ImGui::GetWindowSize());
     // ImGui::End();
 
+    ImGui::Begin("Debug##Default");
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(float(640), float(480)));
 
-    mEditor->SetDisplayRegion(Zep::toNVec2f(ImGui::GetWindowPos()), Zep::toNVec2f(ImGui::GetWindowSize()));
+    // mEditor->SetDisplayRegion(Zep::toNVec2f(ImGui::GetWindowPos()), Zep::toNVec2f(ImGui::GetWindowSize()));
+    mEditor->SetDisplayRegion(Zep::toNVec2f(ImVec2(0, 0)), Zep::toNVec2f(ImVec2(640, 480)));
     mEditor->Display();
+    
     ImGui::End();
 }
 
