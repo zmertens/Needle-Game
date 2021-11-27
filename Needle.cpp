@@ -119,9 +119,12 @@ int Needle::doStuff()
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        static bool show_demo_window = false;
+        static bool show_demo_window = true;
+        static constexpr unsigned int DEMO_WINDOW_X = -200, DEMO_WINDOW_Y = 400;
+        ImGui::SetNextWindowPos(ImVec2(DEMO_WINDOW_X, DEMO_WINDOW_Y));
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
+        ImGui::End();
 
         static unsigned int timer = 0;
         if (timer >= 60)
