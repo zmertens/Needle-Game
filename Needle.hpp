@@ -31,6 +31,7 @@ private:
     FileHandler mFileHandler;
     std::string mHaystack;
 
+    int generateHaystack();
     static void setFramebufferCallback(GLFWwindow* window, int width, int height);
 };
 

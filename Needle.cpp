@@ -3,6 +3,22 @@
 #include <iostream>
 
 /**
+ * ASCII art from <https://www.asciiart.eu/animals/insects/>
+ */
+int Needle::generateHaystack()
+{
+    mHaystack = R"R(
+             _  _
+            | )/ )
+         \\ |//,' __
+         (")(_)-"()))=-
+            (\\
+    )R";
+
+    return mHaystack.length();
+}
+
+/**
  * Statics
  */
 void Needle::setFramebufferCallback(GLFWwindow* window, int width, int height)
@@ -89,11 +105,13 @@ int Needle::doStuff()
         static constexpr unsigned int HAYSTACK_CUTOFF = 10;
         auto bufferStr = mZepHandler.getTextFromActiveBuffer();
         auto& activeBuffer = mZepHandler.GetEditor().GetActiveTabWindow()->GetActiveWindow()->GetBuffer();
-        if (mHaystack.length() < HAYSTACK_CUTOFF)
+        if (bufferStr.length() < HAYSTACK_CUTOFF)
         {
 #if defined(NEEDLE_DEBUG)
             cout << "Generating a new haystack" << endl;
 #endif // NEEDLE_DEBUG
+            generateHaystack();
+            mZepHandler.setTextToActiveBuffer(mHaystack);
         }
 
         // Start the Dear ImGui frame
