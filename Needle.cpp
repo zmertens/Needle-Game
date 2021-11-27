@@ -59,7 +59,7 @@ int Needle::doStuff()
         cerr << "Filehandler did not init" << endl;
     }
 
-    string fileContents = mFileHandler.readFile("./assets/heiroglyphics.md");
+    string fileContents = mFileHandler.readFile("./assets/heiroglyphics.md.txt");
 
 #if defined(NEEDLE_DEBUG)
         cout << "File contents:\r\n" << fileContents << endl;
@@ -103,7 +103,7 @@ int Needle::doStuff()
 #if defined(NEEDLE_DEBUG)
             cout << "Application average %.3f ms/frame (%.1f FPS): " <<
                 (1000.0f / ImGui::GetIO().Framerate) << " " << ImGui::GetIO().Framerate << endl;
-            cout << "Haystack: " << mHaystack << endl;
+            // cout << "Haystack: " << mHaystack << endl;
 #endif // NEEDLE_DEBUG
             timer = 0;
         }

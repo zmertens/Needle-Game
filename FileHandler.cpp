@@ -7,7 +7,7 @@ FileHandler::FileHandler()
 {
 }
 
-std::string FileHandler::readFile(const std::string &fileName)
+std::string FileHandler::readFile(const std::string& fileName)
 {
     if (fileName.length() == 0)
     {
@@ -18,13 +18,19 @@ std::string FileHandler::readFile(const std::string &fileName)
     newfile.open(fileName.c_str(), std::ios::in);
     if (newfile.is_open())
     {
-        std::string temp = "";
-        while (std::getline(newfile, temp))
+        char temp = ' ';
+        while (!newfile.eof())
         {
+            newfile >> temp;         
             ret += temp;
         }
         newfile.close();
     }
+    else
+    {
+        return "Cannot open file: " + fileName;
+    }
+
     return ret;
 }
 
