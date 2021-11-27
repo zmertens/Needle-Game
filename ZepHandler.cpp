@@ -26,7 +26,11 @@ bool ZepHandler::init()
 
     // Outputs to the pixel shader
     out vec2 frag_tex_coord;
-    out vec4 frag_color;
+    out vec4 frag_color;   ,,     ,,     ,,
+                           oo    _oo_   ,oo,
+                          /==\   /==\   /==\
+                         (/==\) (/==\) (/==\)
+                           \/     \/     \/
 
     void main()
     {

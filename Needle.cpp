@@ -86,7 +86,15 @@ int Needle::doStuff()
 
         mGlfwHandler.resetKeys();
 
+        static constexpr unsigned int HAYSTACK_CUTOFF = 10;
         auto bufferStr = mZepHandler.getTextFromActiveBuffer();
+        auto& activeBuffer = mZepHandler.GetEditor().GetActiveTabWindow()->GetActiveWindow()->GetBuffer();
+        if (mHaystack.length() < HAYSTACK_CUTOFF)
+        {
+#if defined(NEEDLE_DEBUG)
+            cout << "Generating a new haystack" << endl;
+#endif // NEEDLE_DEBUG
+        }
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
