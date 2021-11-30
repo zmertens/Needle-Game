@@ -3,8 +3,9 @@ Game jam theme is "BUG"
 
 ### Overview
 
+Use a text editor with VIM-like commands to defeat bugs.
 An adventurous group of friends steal a rocket spaceship and take it
-from Earth out into the Cosmos. They crash land somewhere past Jupiter and before Uranus. Upon, landing safetly, they realize their commandeered spaceship engine has stalled, indefintely. Their knowledge of software development kicks in and they open a terminal into the rocket's digital console. They discover that all the code has been scrambled, with a note reading: "Congratultions on discovering this place, you're not the first and surely could be the last, so make it past with some more gas,
+from Earth out into the Cosmos. They crash land somewhere on Saturn. Upon, landing safetly, they realize their stolen spaceship engine has stalled, indefintely. Their knowledge of software development kicks in and they open a terminal into the rocket's digital console. They discover that all the code has been scrambled, with a note reading: "Congratultions on discovering this place, you're not the first and surely could be the last, so make it past with some more gas,
 and you'll see the source more easily." In ASCII artform, a bee, is attached.
 
 ### Playing
@@ -46,4 +47,6 @@ git submodule add https://github.com/erincatto/box2d.git
 git submodule add https://github.com/RameshAditya/asciify.git
 git submodule add https://github.com/reedacartwright/dawg.git
 ```
+
+Shout-out to [libzep](https://github.com/Rezonality/zep) for providing the editor functionality and VIM support..
 
