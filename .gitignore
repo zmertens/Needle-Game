@@ -45,10 +45,16 @@ install_manifest.txt
 
 # Ignore directories
 build/
+tools/asciify
 libs/dear_imgui
+libs/dawg
 !libs/glad
 libs/glfw-3.3-stable
 libs/glm-0.9.7
 libs/box2d
 !libs/stb
+!libs/zep
 !libs/.gitkeep
+
+.vscode
+imgui.ini

@@ -10,9 +10,12 @@
 #include <iostream>
 #include <cstdio>
 #include <array>
+#include <memory>
 
 #include "GlfwHandler.hpp"
-#include "ImguiHandler.hpp"
+#include "GlTriangle.hpp"
+#include "ZepHandler.hpp"
+#include "FileHandler.hpp"
 
 class Needle
 {
@@ -21,9 +24,14 @@ public:
     int doStuff();
 
 private:
-
     GlfwHandler mGlfwHandler;
 
+    std::unique_ptr<GlTriangle> mGlTriangle;
+    ZepHandler mZepHandler;
+    FileHandler mFileHandler;
+    std::string mHaystack;
+
+    int generateHaystack();
     static void setFramebufferCallback(GLFWwindow* window, int width, int height);
 };
 
